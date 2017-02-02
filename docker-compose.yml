@@ -4,13 +4,17 @@ services:
     image: rabbitmq:3-management
     restart: always
     ports:
-      - 15672:15672
+      - 15672:15672      
+      - 5672:5672
     logging:
       options:
         max-size: "10m"
         max-file: "10"
 
   config:
+    build: config
+    ports:
+      - 8888:8888
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     image: interac-config
@@ -21,6 +25,7 @@ services:
         max-file: "10"
 
   registry:
+    build: registry
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     image: interac-registry
@@ -33,6 +38,7 @@ services:
         max-file: "10"
 
   gateway:
+    build: gateway
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     image: interac-gateway
@@ -45,6 +51,9 @@ services:
         max-file: "10"
 
   auth-service:
+    build: auth-service
+    ports:
+      - 5000:5000
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD      
       INTERAC_SERVICE_PASSWORD: $INTERAC_SERVICE_PASSWORD
@@ -57,6 +66,9 @@ services:
         max-file: "10"
 
   auth-mongodb:
+    build: mongodb
+    ports:
+      - 25000:27017
     environment:
       MONGODB_PASSWORD: $MONGODB_PASSWORD
     image: interac-mongodb
@@ -67,11 +79,14 @@ services:
         max-file: "10"
 
   interac-service:
+    build: interac-service
+    ports:
+      - 6000:6000
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
       INTERAC_SERVICE_PASSWORD: $INTERAC_SERVICE_PASSWORD
       MONGODB_PASSWORD: $MONGODB_PASSWORD
-    image: interac-interac-service
+    image: interac-service
     restart: always
     logging:
       options:
@@ -79,6 +94,9 @@ services:
         max-file: "10"
 
   interac-mongodb:
+    build: mongodb
+    ports:
+      - 26000:27017
     environment:      
       MONGODB_PASSWORD: $MONGODB_PASSWORD
     image: interac-mongodb
@@ -89,6 +107,7 @@ services:
         max-file: "10"
   
   monitoring:
+    build: monitoring
     environment:
       CONFIG_SERVICE_PASSWORD: $CONFIG_SERVICE_PASSWORD
     image: interac-monitoring

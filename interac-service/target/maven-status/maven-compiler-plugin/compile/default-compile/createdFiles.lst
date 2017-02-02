@@ -1,0 +1,12 @@
+com\ibm\interac\InteracApplication.class
+com\ibm\interac\service\InteracService.class
+com\ibm\interac\controller\ErrorHandler.class
+com\ibm\interac\repository\InteracRepository.class
+com\ibm\interac\service\security\CustomUserInfoTokenServices.class
+com\ibm\interac\controller\InteracController.class
+com\ibm\interac\repository\PayeeRepository.class
+com\ibm\interac\client\AuthServiceClient.class
+com\ibm\interac\service\InteracServiceImpl.class
+com\ibm\interac\domain\User.class
+com\ibm\interac\domain\Payee.class
+com\ibm\interac\domain\Transfer.class

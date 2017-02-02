@@ -1,0 +1,9 @@
+com\ibm\interac\auth\service\security\MongoUserDetailsService.class
+com\ibm\interac\auth\service\UserService.class
+com\ibm\interac\auth\controller\UserController.class
+com\ibm\interac\auth\AuthApplication$webSecurityConfig.class
+com\ibm\interac\auth\service\UserServiceImpl.class
+com\ibm\interac\auth\repository\UserRepository.class
+com\ibm\interac\auth\AuthApplication.class
+com\ibm\interac\auth\AuthApplication$OAuth2AuthorizationConfig.class
+com\ibm\interac\auth\domain\User.class

@@ -1,0 +1,7 @@
+C:\IBM\MicroservicesOSGI\spring-workspace3\Interac-master\auth-service\src\main\java\com\ibm\interac\auth\service\UserService.java
+C:\IBM\MicroservicesOSGI\spring-workspace3\Interac-master\auth-service\src\main\java\com\ibm\interac\auth\service\UserServiceImpl.java
+C:\IBM\MicroservicesOSGI\spring-workspace3\Interac-master\auth-service\src\main\java\com\ibm\interac\auth\service\security\MongoUserDetailsService.java
+C:\IBM\MicroservicesOSGI\spring-workspace3\Interac-master\auth-service\src\main\java\com\ibm\interac\auth\domain\User.java
+C:\IBM\MicroservicesOSGI\spring-workspace3\Interac-master\auth-service\src\main\java\com\ibm\interac\auth\repository\UserRepository.java
+C:\IBM\MicroservicesOSGI\spring-workspace3\Interac-master\auth-service\src\main\java\com\ibm\interac\auth\AuthApplication.java
+C:\IBM\MicroservicesOSGI\spring-workspace3\Interac-master\auth-service\src\main\java\com\ibm\interac\auth\controller\UserController.java

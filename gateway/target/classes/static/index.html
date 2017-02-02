@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<htmL>
+<head>
+<title>Sample Intrac Application</title>
+<link rel="stylesheet" type="text/css" href="css/interac.css">
+<script src="js/lib/jquery.min.js"></script>
+<script lang="javascript">
+
+function login() {
+	
+    var username = $("input[id='username']").val();
+    var password = $("input[id='pass']").val();
+
+    if (requestOauthToken(username, password)) {
+       alert("Welcome " + username);
+       document.getElementById("logindiv").style.visibility = "hidden";
+       document.getElementById("welcome").style.visibility = "visible";
+       document.getElementById("welcome").innerHTML="Welcome " + username;
+        
+    } else {        
+        alert("Something went wrong. Please, check your credentials");
+    }
+}
+
+
+
+function createUser() {
+	
+	var username = $("input[id='username']").val();
+    var password = $("input[id='pass']").val();
+
+    if (username.length < 3 || password.length < 6) {
+        alert("Username must be at least 3 characters and password - at least 6. ");
+        return;
+    }
+
+	if (username && password) {
+        $.ajax({
+            url: 'interac/',
+            datatype: 'json',
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify({
+                username: username,
+                password: password
+            }),
+            success: function (data) {
+
+                requestOauthToken(username, password);
+                alert("User created");
+                document.getElementById("logindiv").style.visibility = "hidden";
+                document.getElementById("welcome").style.visibility = "visible";
+                document.getElementById("welcome").innerHTML="Welcome " + username;
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 400) {
+                    alert("Sorry, account with the same name already exists.");
+                } else {
+                    alert("An error during account creation. Please, try again.");
+                }
+            }
+        });
+
+	} else {
+        alert("Please, fill all the fields.");
+    }
+}
+
+
+/**
+ * Oauth2
+ */
+
+function requestOauthToken(username, password) {
+
+	var success = false;
+
+	$.ajax({
+		url: 'uaa/oauth/token',
+		datatype: 'json',
+		type: 'post',
+		headers: {'Authorization': 'Basic YnJvd3Nlcjo='},
+		async: false,
+		data: {
+			scope: 'ui',
+			username: username,
+			password: password,
+			grant_type: 'password'
+		},
+		success: function (data) {
+			localStorage.setItem('token', data.access_token);
+			success = true;
+		},
+		error: function () {
+			removeOauthTokenFromStorage();
+		}
+	});
+
+	return success;
+}
+
+function getOauthTokenFromStorage() {
+	return localStorage.getItem('token');
+}
+
+function removeOauthTokenFromStorage() {
+    return localStorage.removeItem('token');
+}
+
+</script>
+</head>
+<body>
+<div id="welcome" hidden="true"></div>
+<div id="logindiv">
+	<label><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="uname" required id="username">
+
+    <label><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="psw" required id="pass">
+
+    <button type="submit" id="login" onclick="login()">Login</button>
+    <button type="submit" id="create" onclick="createUser()">Create New Account</button>
+</div>
+
+</body>
+</htmL>

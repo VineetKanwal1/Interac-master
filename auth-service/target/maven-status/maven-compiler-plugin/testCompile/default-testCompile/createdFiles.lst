@@ -1,0 +1,5 @@
+com\ibm\interac\auth\controller\UserControllerTest.class
+com\ibm\interac\auth\repository\UserRepositoryTest.class
+com\ibm\interac\auth\service\UserServiceTest.class
+com\ibm\interac\auth\service\security\MongoUserDetailsServiceTest.class
+com\ibm\interac\auth\AuthServiceApplicationTests.class

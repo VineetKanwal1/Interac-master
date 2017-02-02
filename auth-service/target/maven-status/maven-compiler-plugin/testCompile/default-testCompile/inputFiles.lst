@@ -1,0 +1,5 @@
+C:\IBM\MicroservicesOSGI\spring-workspace3\Interac-master\auth-service\src\test\java\com\ibm\interac\auth\AuthServiceApplicationTests.java
+C:\IBM\MicroservicesOSGI\spring-workspace3\Interac-master\auth-service\src\test\java\com\ibm\interac\auth\controller\UserControllerTest.java
+C:\IBM\MicroservicesOSGI\spring-workspace3\Interac-master\auth-service\src\test\java\com\ibm\interac\auth\repository\UserRepositoryTest.java
+C:\IBM\MicroservicesOSGI\spring-workspace3\Interac-master\auth-service\src\test\java\com\ibm\interac\auth\service\UserServiceTest.java
+C:\IBM\MicroservicesOSGI\spring-workspace3\Interac-master\auth-service\src\test\java\com\ibm\interac\auth\service\security\MongoUserDetailsServiceTest.java

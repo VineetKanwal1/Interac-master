@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<htmL>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Sample Intrac Application</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="login.css" />
+<title>Sample Interac Application</title>
+
 <link rel="stylesheet" type="text/css" href="css/interac.css">
 <script src="js/lib/jquery.min.js"></script>
-<script lang="javascript">
+<script language="javascript">
+
+if(localStorage.getItem('username') && localStorage.getItem('token')) {
+	 $("#logindiv").hide();        
+     $("#welcomediv").html("Welcome " + localStorage.getItem('username'));
+     $("#welcomediv").show();
+     $("#transferdiv").show();
+}
 
 function login() {
 	
@@ -12,10 +23,12 @@ function login() {
     var password = $("input[id='pass']").val();
 
     if (requestOauthToken(username, password)) {
+       localStorage.setItem("username",username);
        alert("Welcome " + username);
-       document.getElementById("logindiv").style.visibility = "hidden";
-       document.getElementById("welcome").style.visibility = "visible";
-       document.getElementById("welcome").innerHTML="Welcome " + username;
+       $("#logindiv").hide();        
+       $("#welcomediv").html("Welcome " + username);
+       $("#welcomediv").show();
+       $("#transferdiv").show();
         
     } else {        
         alert("Something went wrong. Please, check your credentials");
@@ -45,12 +58,90 @@ function createUser() {
                 password: password
             }),
             success: function (data) {
-
+            	localStorage.setItem("username",username);
                 requestOauthToken(username, password);
                 alert("User created");
-                document.getElementById("logindiv").style.visibility = "hidden";
-                document.getElementById("welcome").style.visibility = "visible";
-                document.getElementById("welcome").innerHTML="Welcome " + username;
+                $("#logindiv").hide();        
+                $("#welcomediv").html("Welcome " + username);
+                $("#welcomediv").show();
+                $("#transferdiv").show();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 400) {
+                    alert("Sorry, account with the same name already exists.");
+                } else {
+                    alert("An error during account creation. Please, try again.");
+                }
+            }
+        });
+
+	} else {
+        alert("Please, fill all the fields.");
+    }
+}
+
+function getTransfer() {
+		
+    var transferId = $("input[id='transferId']").val();    
+    
+	if (transferId) {
+        $.ajax({
+            url: 'interac/transfer/'+transferId,
+            datatype: 'json',
+            type: "get",
+            contentType: "application/json",
+            success: function (data) {
+                
+                alert("Transfer Request retrieved for ID " + data.id + " State: " + data.state);
+                $("#transferId").html(data.id);
+                $("#recepientEmail").html(data.recepientEmail);
+                $("#amount").html(data.amount);
+                $("#state").html(data.state);
+                $("#logindiv").hide();        
+                $("#welcomediv").html("Welcome " + username);
+                $("#welcomediv").show();
+                $("#transferdiv").show();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                if (xhr.status == 400) {
+                    alert("Sorry, account with the same name already exists.");
+                } else {
+                    alert("An error during account creation. Please, try again.");
+                }
+            }
+        });
+
+	} else {
+        alert("Please, fill all the fields.");
+    }
+}
+
+function createTransfer() {
+	
+	var username = localStorage.getItem('username');
+    var recipientEmail = $("input[id='recipientEmail']").val();
+    var amount = = $("input[id='amount']").val();
+    
+
+	if (username) {
+        $.ajax({
+            url: 'interac/transfer/',
+            datatype: 'json',
+            type: "post",
+            contentType: "application/json",
+            data: JSON.stringify({
+                username: username,
+                recepientEmail: recepientEmail,
+                amount : amount
+            }),
+            success: function (data) {
+                
+                alert("Transfer Request Created with ID " + data.id);
+                $("#transferId").html(data.id);
+                $("#logindiv").hide();        
+                $("#welcomediv").html("Welcome " + username);
+                $("#welcomediv").show();
+                $("#transferdiv").show();
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 if (xhr.status == 400) {
@@ -104,23 +195,30 @@ function getOauthTokenFromStorage() {
 }
 
 function removeOauthTokenFromStorage() {
-    return localStorage.removeItem('token');
+	localStorage.removeItem("username");
+    return localStorage.removeItem('token');    
 }
 
 </script>
 </head>
+
 <body>
-<div id="welcome" hidden="true"></div>
-<div id="logindiv">
-	<label><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required id="username">
 
-    <label><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required id="pass">
-
-    <button type="submit" id="login" onclick="login()">Login</button>
-    <button type="submit" id="create" onclick="createUser()">Create New Account</button>
+<div class="login" id="logindiv">
+  <input type="text" placeholder="Username" id="username" />  
+  <input type="password" placeholder="Password" id="password" />  
+    <input type="submit" value="Sign In" onclick="login()" />
+    <a href="#" class="forgot" onclick="createUser()">Create New Account</a>
 </div>
-
+<div id="welcomediv" class="topcorner" style="display: none;"></div>
+<div class="login" id="transferdiv" style="display: none;">
+  <input type="text" placeholder="Transfer ID" id="transferId" />
+  <input type="text" placeholder="Recepient Email" id="recipientEmail" />   
+  <input type="text" placeholder="Amount" id="amount" /> 
+  <input type="text" placeholder="State" id="state" />  
+    <input type="submit" value="Create Tranfer" onclick="createTransfer()" />   
+    <input type="submit" value="Get Tranfer" onclick="getTransfer()" />   
+</div>
 </body>
-</htmL>
+</html>
+

@@ -1,5 +1,8 @@
 package com.ibm.interac.service;
 
+import java.util.Date;
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +40,14 @@ public class InteracServiceImpl implements InteracService {
 
 	@Override
 	public Transfer createTransfer(Transfer transfer) {
+		
+		String id = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 6);		
+		
+		transfer.setId(id);
+		
+		transfer.setCreatedAt(new Date());
+		
+		transfer.setState("Pending");
 		
 		return repository.save(transfer);		
 	}

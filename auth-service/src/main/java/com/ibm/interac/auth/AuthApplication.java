@@ -85,9 +85,6 @@ public class AuthApplication {
 		@Override
 		public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
-			// TODO persist clients details
-
-			// @formatter:off
 			clients.inMemory()
 					.withClient("browser")
 					.authorizedGrantTypes("refresh_token", "password")
@@ -97,7 +94,6 @@ public class AuthApplication {
 					.secret(env.getProperty("INTERAC_SERVICE_PASSWORD"))
 					.authorizedGrantTypes("client_credentials", "refresh_token")
 					.scopes("server");			
-			// @formatter:on
 		}
 
 		@Override

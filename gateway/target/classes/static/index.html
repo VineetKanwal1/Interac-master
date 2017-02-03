@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="login.css" />
+<link rel="stylesheet" type="text/css" href="css/interac.css" />
 <title>Sample Interac Application</title>
 
 <link rel="stylesheet" type="text/css" href="css/interac.css">
@@ -17,10 +17,10 @@ if(localStorage.getItem('username') && localStorage.getItem('token')) {
      $("#transferdiv").show();
 }
 
-function login() {
+function signin() {
 	
     var username = $("input[id='username']").val();
-    var password = $("input[id='pass']").val();
+    var password = $("input[id='password']").val();
 
     if (requestOauthToken(username, password)) {
        localStorage.setItem("username",username);
@@ -40,7 +40,7 @@ function login() {
 function createUser() {
 	
 	var username = $("input[id='username']").val();
-    var password = $("input[id='pass']").val();
+    var password = $("input[id='password']").val();
 
     if (username.length < 3 || password.length < 6) {
         alert("Username must be at least 3 characters and password - at least 6. ");
@@ -120,7 +120,7 @@ function createTransfer() {
 	
 	var username = localStorage.getItem('username');
     var recipientEmail = $("input[id='recipientEmail']").val();
-    var amount = = $("input[id='amount']").val();
+    var amount = $("input[id='amount']").val();
     
 
 	if (username) {
@@ -207,7 +207,7 @@ function removeOauthTokenFromStorage() {
 <div class="login" id="logindiv">
   <input type="text" placeholder="Username" id="username" />  
   <input type="password" placeholder="Password" id="password" />  
-    <input type="submit" value="Sign In" onclick="login()" />
+    <input type="submit" value="Sign In" onclick="signin()" />
     <a href="#" class="forgot" onclick="createUser()">Create New Account</a>
 </div>
 <div id="welcomediv" class="topcorner" style="display: none;"></div>

@@ -20,7 +20,7 @@ public class InteracController {
 	@Autowired
 	private InteracService interacService;
 
-	@PreAuthorize("#oauth2.hasScope('server') or #name.equals('demo')")
+	//@PreAuthorize("#oauth2.hasScope('server') or #name.equals('demo')")
 	@RequestMapping(path = "/transfer/{id}", method = RequestMethod.GET)
 	public Transfer getTransfer(@PathVariable String id) {
 		return interacService.find(id);

@@ -81,6 +81,8 @@ function createUser() {
 }
 
 function getTransfer() {
+	
+	var token = getOauthTokenFromStorage();
 		
     var transferId = $("input[id='transferId']").val();    
     
@@ -89,14 +91,15 @@ function getTransfer() {
             url: 'interac/transfer/'+transferId,
             datatype: 'json',
             type: "get",
+			headers: {'Authorization': 'Bearer ' + token},
             contentType: "application/json",
             success: function (data) {
                 
                 alert("Transfer Request retrieved for ID " + data.id + " State: " + data.state);
-                $("#transferId").html(data.id);
-                $("#recepientEmail").html(data.recepientEmail);
-                $("#amount").html(data.amount);
-                $("#state").html(data.state);
+                $("#transferId").val(data.id);
+                $("#recepientEmail").val(data.recepientEmail);
+                $("#amount").val(data.amount);
+                $("#state").val(data.state);
                 $("#logindiv").hide();        
                 $("#welcomediv").html("Welcome " + username);
                 $("#welcomediv").show();
@@ -118,8 +121,10 @@ function getTransfer() {
 
 function createTransfer() {
 	
+	var token = getOauthTokenFromStorage();
+	
 	var username = localStorage.getItem('username');
-    var recipientEmail = $("input[id='recipientEmail']").val();
+    var recepientEmail = $("input[id='recepientEmail']").val();
     var amount = $("input[id='amount']").val();
     
 
@@ -128,6 +133,7 @@ function createTransfer() {
             url: 'interac/transfer/',
             datatype: 'json',
             type: "post",
+            headers: {'Authorization': 'Bearer ' + token},
             contentType: "application/json",
             data: JSON.stringify({
                 username: username,
@@ -137,7 +143,7 @@ function createTransfer() {
             success: function (data) {
                 
                 alert("Transfer Request Created with ID " + data.id);
-                $("#transferId").html(data.id);
+                $("#transferId").val(data.id);
                 $("#logindiv").hide();        
                 $("#welcomediv").html("Welcome " + username);
                 $("#welcomediv").show();
@@ -205,17 +211,17 @@ function removeOauthTokenFromStorage() {
 <body>
 
 <div class="login" id="logindiv">
-  <input type="text" placeholder="Username" id="username" />  
-  <input type="password" placeholder="Password" id="password" />  
+  <input type="text" placeholder="Username" id="username">Username : </input>  
+  <input type="password" placeholder="Password" id="password">Password : </input>  
     <input type="submit" value="Sign In" onclick="signin()" />
     <a href="#" class="forgot" onclick="createUser()">Create New Account</a>
 </div>
 <div id="welcomediv" class="topcorner" style="display: none;"></div>
 <div class="login" id="transferdiv" style="display: none;">
-  <input type="text" placeholder="Transfer ID" id="transferId" />
-  <input type="text" placeholder="Recepient Email" id="recipientEmail" />   
-  <input type="text" placeholder="Amount" id="amount" /> 
-  <input type="text" placeholder="State" id="state" />  
+  <input type="text" placeholder="Transfer ID" id="transferId">Transfer ID : </input>
+  <input type="text" placeholder="Recepient Email" id="recepientEmail">Recepient Email : </input>   
+  <input type="text" placeholder="Amount" id="amount">Amount : </input> 
+  <input type="text" placeholder="State" id="state">State : </input>  
     <input type="submit" value="Create Tranfer" onclick="createTransfer()" />   
     <input type="submit" value="Get Tranfer" onclick="getTransfer()" />   
 </div>

@@ -36,4 +36,10 @@ public class InteracController {
 	public void createNewUser(@Valid @RequestBody User user) {
 		interacService.createUser(user);		
 	}
+	
+	@PreAuthorize("permitAll")
+	@RequestMapping(path = "/hello/{name}", method = RequestMethod.GET)
+	public String hello(@PathVariable String name){
+		return "Hello " + name;
+	}
 }
